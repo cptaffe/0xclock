@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>0xclock</title>
+<style>
+@import url(https://fonts.googleapis.com/css?family=Roboto+Mono:400,100);
+
+html body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+.background {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	vertical-align: middle;
+}
+
+#hex {
+	color: white;
+	font-family: 'Roboto Mono', sans-serif;
+	text-align: center;
+	font-size: 4.5em;
+	display: block;
+	min-width: 200px;
+	font-weight: 100;
+
+	margin: auto;
+	position: absolute;
+	top: 50%; left: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+}
+</style>
+</head>
+<body>
+	<script>
+	'use strict';
+	let $ = require('jquery'),
+		sprintf = require('sprintf');
+
+	class HexView {
+		constructor(view) {
+			this.view = view
+
+			let d = new Date();
+			this.h = d.getHours();
+			this.m = d.getMinutes();
+			this.s = d.getSeconds();
+		}
+
+		render() {
+			var color = sprintf('#%02x%02x%02x', this.h, this.m, this.s);
+			$(this.view).css({
+				'background-color': color
+			});
+	    $(this.view).append(
+				$('<div />').attr('id', 'hex').text(sprintf('0x%02x%02x%02x', this.h, this.m, this.s))
+			);
+		}
+	}
+
+	(function() {
+	 	function t() {
+			new HexView($(document.body).html('')).render();
+			setTimeout(t, 1000);
+		}
+		t();
+	})();
+	</script>
+</body>
+</html>
